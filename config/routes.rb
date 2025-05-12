@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   # Routes for the Session resource:
 
+  get("/", { :controller => "sessions", :action => "index" })
+
   # CREATE
   post("/insert_session", { :controller => "sessions", :action => "create" })
           
