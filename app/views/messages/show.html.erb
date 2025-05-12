@@ -1,0 +1,101 @@
+<div>
+  <div>
+    <h1>
+      Message #<%= @the_message.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/messages">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_message/<%= @the_message.id %>">
+          Delete message
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Content
+      </dt>
+      <dd>
+        <%= @the_message.content %>
+      </dd>
+
+      <dt>
+        Role
+      </dt>
+      <dd>
+        <%= @the_message.role %>
+      </dd>
+
+      <dt>
+        Session
+      </dt>
+      <dd>
+        <%= @the_message.session_id %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_message.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_message.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit message
+    </h2>
+
+    <form action="/modify_message/<%= @the_message.id %>"  method="post" >
+      <div>
+        <label for="content_box">
+          Content
+        </label>
+
+        <input type="text" id="content_box" name="query_content" value="<%= @the_message.content %>">
+      </div>
+
+      <div>
+        <label for="role_box">
+          Role
+        </label>
+
+        <input type="text" id="role_box" name="query_role" value="<%= @the_message.role %>">
+      </div>
+
+      <div>
+        <label for="session_id_box">
+          Session
+        </label>
+
+        <input type="text" id="session_id_box" name="query_session_id" value="<%= @the_message.session_id %>">
+      </div>
+
+      <button>
+        Update message
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
