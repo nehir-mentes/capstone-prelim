@@ -1,0 +1,101 @@
+<div>
+  <div>
+    <h1>
+      Session #<%= @the_session.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/sessions">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_session/<%= @the_session.id %>">
+          Delete session
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Title
+      </dt>
+      <dd>
+        <%= @the_session.title %>
+      </dd>
+
+      <dt>
+        Restaurant
+      </dt>
+      <dd>
+        <%= @the_session.restaurant %>
+      </dd>
+
+      <dt>
+        Owner
+      </dt>
+      <dd>
+        <%= @the_session.owner %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_session.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_session.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit session
+    </h2>
+
+    <form action="/modify_session/<%= @the_session.id %>"  method="post" >
+      <div>
+        <label for="title_box">
+          Title
+        </label>
+
+        <input type="text" id="title_box" name="query_title" value="<%= @the_session.title %>">
+      </div>
+
+      <div>
+        <label for="restaurant_box">
+          Restaurant
+        </label>
+
+        <input type="text" id="restaurant_box" name="query_restaurant" value="<%= @the_session.restaurant %>">
+      </div>
+
+      <div>
+        <label for="owner_box">
+          Owner
+        </label>
+
+        <input type="text" id="owner_box" name="query_owner" value="<%= @the_session.owner %>">
+      </div>
+
+      <button>
+        Update session
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

@@ -1,0 +1,118 @@
+<div>
+  <div>
+    <h1>
+      List of all sessions
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add a new session
+    </h2>
+
+    <form action="/insert_session" method="post">
+      <div>
+        <label for="title_box">
+          Title
+        </label>
+
+        <input type="text" id="title_box" name="query_title">
+      </div>
+
+      <div>
+        <label for="restaurant_box">
+          Restaurant
+        </label>
+
+        <input type="text" id="restaurant_box" name="query_restaurant">
+      </div>
+
+      <div>
+        <label for="owner_box">
+          Owner
+        </label>
+
+        <input type="text" id="owner_box" name="query_owner">
+      </div>
+
+      <button>
+        Create session
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Title
+        </th>
+
+        <th>
+          Restaurant
+        </th>
+
+        <th>
+          Owner
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_sessions.each do |a_session| %>
+      <tr>
+        <td>
+          <%= a_session.id %>
+        </td>
+
+        <td>
+          <%= a_session.title %>
+        </td>
+
+        <td>
+          <%= a_session.restaurant %>
+        </td>
+
+        <td>
+          <%= a_session.owner %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_session.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_session.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/sessions/<%= a_session.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>
