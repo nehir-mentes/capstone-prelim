@@ -11,11 +11,7 @@ Rails.application.routes.draw do
   get("/sessions", { :controller => "sessions", :action => "index" })
   
   get("/sessions/:path_id", { :controller => "sessions", :action => "show" })
-  
-  # UPDATE
-  
-  post("/modify_session/:path_id", { :controller => "sessions", :action => "update" })
-  
+    
   # DELETE
   get("/delete_session/:path_id", { :controller => "sessions", :action => "destroy" })
 
