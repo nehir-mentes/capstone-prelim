@@ -50,6 +50,31 @@ class MessagesController < ApplicationController
     )
     assistant_message.save
 
+    # Get all the older messages for this topic from the db
+    
+    the_history = the_session.messages.order(:created_at)
+
+    # Reconstruct an AI::Chat from scratch
+    reconstructed_chat = OpenAI::Chat.new
+
+    the_history.each do |a_message|
+       if a_message.role == "system"
+        reconstructed_chat.system(a_message.content)
+      elsif a_message.role == "user"
+        reconstructed_chat.user(a_message.content)
+        else
+        reconstructed_chat.assistant(a_message.content)
+      end
+    end
+
+      # Get the next assistant message
+
+      next_message = Message.new
+      next_message.session_id = the_session.id
+      next_message.role = "assistant"
+      next_message.content = reconstructed_chat.assistant!
+      next_message.save
+
     # Redirect back to the session page
     redirect_to("/sessions/#{the_message.session_id}", { :notice => "Message created successfully." })
   else
