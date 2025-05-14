@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
   def create
     the_message = Message.new
     the_message.content = params.fetch("query_content")
-    the_message.role = params.fetch("query_role")
+    the_message.role = "user"
     the_message.session_id = params.fetch("query_session_id")
 
     if the_message.valid?
