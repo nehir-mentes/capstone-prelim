@@ -33,22 +33,81 @@
         <%= @the_session.owner %>
       </dd>
 
-<p>Please tell me up to 3 dishes you are considering for your appetizers and mains:</p>
+<p>Please fill out the details below to get a wine recommendation:</p>
 
-<form action="/insert_message" method="post">
-  <input name="query_session_id" type="hidden" value="<%= @the_session.id %>">
-  <textarea name="query_content" placeholder="Enter your answer..."></textarea>
-  <button>Submit answer</button>
-</form>
+    <form id="message-form" action="/insert_message" method="post" onsubmit="return prepareMessage();">
+      <%= csrf_meta_tags %>
+      <input type="hidden" name="query_session_id" value="<%= @the_session.id %>">
 
-<dl>
-<% @the_session.messages.order(:created_at).each do |a_message| %>
-  <dt>
-    <%= a_message.role %>
-  </dt>
+      <label>
+        Up to 3 dishes you're considering (appetizers & mains):<br>
+        <textarea id="dish_input" placeholder="e.g. shrimp cocktail, steak, mushroom risotto"></textarea>
+      </label>
+      <br><br>
 
-  <dd>
-    <%= a_message.content %>
-  </dd>
+      <label>
+        Price ceiling ($):<br>
+        <input type="number" id="price_input" min="0">
+      </label>
+      <br><br>
+
+      <label>
+        Preferred wine or grape type (optional):<br>
+        <input type="text" id="grape_input" placeholder="e.g. Pinot Noir, Sauvignon Blanc">
+      </label>
+      <br><br>
+
+      <label>
+        <input type="checkbox" id="abv_input"> I prefer a low-alcohol wine
+      </label>
+      <br><br>
+
+      <!-- This is the only input actually submitted -->
+      <textarea name="query_content" id="query_content" hidden></textarea>
+
+      <button type="submit">Submit answer</button>
+    </form>
+
+    <hr>
+
+<% latest_ai_message = @the_session.messages.where(role: "assistant").order(:created_at).last %>
+
+<% if latest_ai_message.present? %>
+  <h2>Wine pairing</h2>
+  <p><%= latest_ai_message.content %></p>
+<% else %>
+  <h2>Wine pairing</h2>
+  <p><em>No response yet. Submit a dish selection above to get started.</em></p>
 <% end %>
-</dl>
+</div>
+
+<script>
+  function prepareMessage() {
+    const dishes = document.getElementById("dish_input").value.trim();
+    const price = document.getElementById("price_input").value.trim();
+    const grape = document.getElementById("grape_input").value.trim();
+    const abv = document.getElementById("abv_input").checked;
+
+    let compiledMessage = "";
+
+    if (dishes) {
+      compiledMessage += "Dishes: " + dishes + ".\n";
+    }
+
+    if (price) {
+      compiledMessage += "Price ceiling: $" + price + ".\n";
+    }
+
+    if (grape) {
+      compiledMessage += "Preferred wine or grape: " + grape + ".\n";
+    }
+
+    if (abv) {
+      compiledMessage += "I'm looking for a low-alcohol wine.\n";
+    }
+
+    document.getElementById("query_content").value = compiledMessage.trim();
+
+    return true; // allow form to submit
+  }
+</script>
