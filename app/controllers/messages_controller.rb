@@ -33,47 +33,33 @@ class MessagesController < ApplicationController
     # Find the session
     the_session = Session.find(the_message.session_id)
 
-    # Find the system message (assuming one exists per session)
-    system_message = Message.find_by(session_id: the_session.id, role: "system")
+  
+    # Fetch full history (including the just-saved user message)
+    the_history = the_session.messages.order(:created_at)
 
-    # Generate assistant response using OpenAI
-    c = OpenAI::Chat.new
-    c.system(system_message.content)
-    c.user(the_message.content)
-    assistant_response = c.assistant!
+    # Reconstruct conversation from full history
+    chat = OpenAI::Chat.new
+    the_history.each do |msg|
+      case msg.role
+      when "system"
+        chat.system(msg.content)
+      when "user"
+        chat.user(msg.content)
+      when "assistant"
+        chat.assistant(msg.content)
+      end
+    end
 
-    # Save assistant message
+    # Generate assistant response using full context
+    assistant_response = chat.assistant!
+
+    # Save the new assistant response
     assistant_message = Message.new(
       session_id: the_session.id,
       role: "assistant",
       content: assistant_response
     )
     assistant_message.save
-
-    # Get all the older messages for this topic from the db
-    
-    the_history = the_session.messages.order(:created_at)
-
-    # Reconstruct an AI::Chat from scratch
-    reconstructed_chat = OpenAI::Chat.new
-
-    the_history.each do |a_message|
-       if a_message.role == "system"
-        reconstructed_chat.system(a_message.content)
-      elsif a_message.role == "user"
-        reconstructed_chat.user(a_message.content)
-        else
-        reconstructed_chat.assistant(a_message.content)
-      end
-    end
-
-      # Get the next assistant message
-
-      next_message = Message.new
-      next_message.session_id = the_session.id
-      next_message.role = "assistant"
-      next_message.content = reconstructed_chat.assistant!
-      next_message.save
 
     # Redirect back to the session page
     redirect_to("/sessions/#{the_message.session_id}", { :notice => "Message created successfully." })
