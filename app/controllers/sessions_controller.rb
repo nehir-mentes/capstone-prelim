@@ -82,26 +82,10 @@ class SessionsController < ApplicationController
       •	Premium ($50+): Recommend age-worthy bottles or iconic producers when food is complex, celebratory, or rare. Choose when wine takes center stage."
 
       system_message.save
-
+      
       redirect_to("/sessions/#{the_session.id}", { :notice => "Session created successfully." })
     else
       redirect_to("/sessions", { :alert => the_session.errors.full_messages.to_sentence })
-    end
-  end
-
-  def update
-    the_id = params.fetch("path_id")
-    the_session = Session.where({ :id => the_id }).at(0)
-
-    the_session.title = params.fetch("query_title")
-    the_session.restaurant = params.fetch("query_restaurant")
-    the_session.owner = params.fetch("query_owner")
-
-    if the_session.valid?
-      the_session.save
-      redirect_to("/sessions/#{the_session.id}", { :notice => "Session updated successfully."} )
-    else
-      redirect_to("/sessions/#{the_session.id}", { :alert => the_session.errors.full_messages.to_sentence })
     end
   end
 
@@ -114,3 +98,19 @@ class SessionsController < ApplicationController
     redirect_to("/sessions", { :notice => "Session deleted successfully."} )
   end
 end
+
+  # def update
+    #the_id = params.fetch("path_id")
+    #the_session = Session.where({ :id => the_id }).at(0)
+
+    #the_session.title = params.fetch("query_title")
+    #the_session.restaurant = params.fetch("query_restaurant")
+    #the_session.owner = params.fetch("query_owner")
+
+    #if the_session.valid?
+      #the_session.save
+      #redirect_to("/sessions/#{the_session.id}", { :notice => "Session updated successfully."} )
+    #else
+      #redirect_to("/sessions/#{the_session.id}", { :alert => the_session.errors.full_messages.to_sentence })
+    #end
+  #end

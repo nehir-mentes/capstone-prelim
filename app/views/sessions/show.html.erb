@@ -36,7 +36,7 @@
 <p>Please tell me up to 3 dishes you are considering for your appetizers and mains:</p>
 
 <form action="/insert_message" method="post">
-  <input name="query_session_id" type="hidden" name="session_id" value="<%= @the_session.id %>">
+  <input name="query_session_id" type="hidden" value="<%= @the_session.id %>">
   <textarea name="query_content" placeholder="Enter your answer..."></textarea>
   <button>Submit answer</button>
 </form>

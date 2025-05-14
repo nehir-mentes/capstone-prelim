@@ -1,3 +1,6 @@
+require 'dotenv/load'
+ENV.fetch("OPENAI_TOKEN")
+
 class MessagesController < ApplicationController
   def index
     matching_messages = Message.all
@@ -18,17 +21,40 @@ class MessagesController < ApplicationController
   end
 
   def create
-    the_message = Message.new
-    the_message.content = params.fetch("query_content")
-    the_message.role = "user"
-    the_message.session_id = params.fetch("query_session_id")
+  # Create the user message
+  the_message = Message.new
+  the_message.content = params.fetch("query_content")
+  the_message.role = "user"
+  the_message.session_id = params.fetch("query_session_id")
 
-    if the_message.valid?
-      the_message.save
-      redirect_to("/messages", { :notice => "Message created successfully." })
-    else
-      redirect_to("/messages", { :alert => the_message.errors.full_messages.to_sentence })
-    end
+  if the_message.valid?
+    the_message.save
+
+    # Find the session
+    the_session = Session.find(the_message.session_id)
+
+    # Find the system message (assuming one exists per session)
+    system_message = Message.find_by(session_id: the_session.id, role: "system")
+
+    # Generate assistant response using OpenAI
+    c = OpenAI::Chat.new
+    c.system(system_message.content)
+    c.user(the_message.content)
+    assistant_response = c.assistant!
+
+    # Save assistant message
+    assistant_message = Message.new(
+      session_id: the_session.id,
+      role: "assistant",
+      content: assistant_response
+    )
+    assistant_message.save
+
+    # Redirect back to the session page
+    redirect_to("/sessions/#{the_message.session_id}", { :notice => "Message created successfully." })
+  else
+    redirect_to("/messages", alert: the_message.errors.full_messages.to_sentence)
+  end
   end
 
   def update
