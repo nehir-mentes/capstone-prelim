@@ -42,9 +42,9 @@ Rails.application.routes.draw do
   post("/insert_message", { :controller => "messages", :action => "create" })
           
   # READ
-  get("/messages", { :controller => "messages", :action => "index" })
+  #get("/messages", { :controller => "messages", :action => "index" })
   
-  get("/messages/:path_id", { :controller => "messages", :action => "show" })
+  #get("/messages/:path_id", { :controller => "messages", :action => "show" })
   
   # UPDATE
   

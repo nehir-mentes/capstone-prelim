@@ -64,7 +64,7 @@ class MessagesController < ApplicationController
     # Redirect back to the session page
     redirect_to("/sessions/#{the_message.session_id}", { :notice => "Message created successfully." })
   else
-    redirect_to("/messages", alert: the_message.errors.full_messages.to_sentence)
+    redirect_to("/sessions/#{the_message.session_id}", alert: the_message.errors.full_messages.to_sentence)
   end
   end
 
