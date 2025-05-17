@@ -1,3 +1,4 @@
+<% restaurants = Restaurant.all.order(:restaurant_name) %>
 <div>
   <div>
     <h1>
@@ -24,11 +25,13 @@
       </div>
 
       <div>
-        <label for="restaurant_box">
-          Restaurant
-        </label>
-
-        <input type="text" id="restaurant_box" name="query_restaurant">
+        <label for="query_restaurant">Choose a restaurant:</label>
+        <select name="query_restaurant" id="query_restaurant" required>
+        <option value="" disabled selected>Select a restaurant</option>
+          <% restaurants.each do |restaurant| %>
+          <option value="<%= restaurant.restaurant_name %>"><%= restaurant.restaurant_name %></option>
+          <% end %>
+      </select>
       </div>
 
       <div>

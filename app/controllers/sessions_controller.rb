@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+
   def index
     matching_sessions = Session.all
 
@@ -98,6 +99,18 @@ class SessionsController < ApplicationController
     end
   end
 
+  before_action :load_restaurants, only: [:new, :create]
+  def new
+  @the_session = Session.new
+  @restaurants = Restaurant.all.order(:restaurant_name)  
+  end
+
+  private
+
+  def load_restaurants
+    @restaurants = Restaurant.all.order(:restaurant_name)
+  end
+  
   def destroy
     the_id = params.fetch("path_id")
     the_session = Session.where({ :id => the_id }).at(0)
