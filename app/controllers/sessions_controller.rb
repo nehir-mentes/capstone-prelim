@@ -89,7 +89,10 @@ class SessionsController < ApplicationController
       6. Price Tier Recommendation Strategy:
       •	Budget (<$20): Recommend solid producers from Chile (Carmenere, Sauvignon Blanc), Spain (Tempranillo, Albariño), Portugal (Douro reds, Vinho Verde), or Southern France (Grenache blends).
       •	Mid-tier ($20–50): Recommend classic regions like Burgundy, Bordeaux, Barolo, Oregon, or Napa. These wines offer typicity and balance.
-      •	Premium ($50+): Recommend age-worthy bottles or iconic producers when food is complex, celebratory, or rare. Choose when wine takes center stage."
+      •	Premium ($50+): Recommend age-worthy bottles or iconic producers when food is complex, celebratory, or rare. Choose when wine takes center stage.
+      ________________________________________
+      7. Wine Menu
+      Pick your recommended wine pairing strictly from the list of wines below, each with a price listed numerically next to it. If the user input has a maximum price, make sure the price of the wine you pick does not exceed that maximum price. Here is your wine list:#{restaurant.wine_menu}"
 
       system_message.save
       
