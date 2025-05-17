@@ -2,24 +2,6 @@ require 'dotenv/load'
 ENV.fetch("OPENAI_TOKEN")
 
 class MessagesController < ApplicationController
-  def index
-    matching_messages = Message.all
-
-    @list_of_messages = matching_messages.order({ :created_at => :desc })
-
-    render({ :template => "messages/index" })
-  end
-
-  def show
-    the_id = params.fetch("path_id")
-
-    matching_messages = Message.where({ :id => the_id })
-
-    @the_message = matching_messages.at(0)
-
-    render({ :template => "messages/show" })
-  end
-
   def create
   # Create the user message
   the_message = Message.new
@@ -93,3 +75,26 @@ class MessagesController < ApplicationController
     redirect_to("/messages", { :notice => "Message deleted successfully."} )
   end
 end
+
+
+
+
+
+
+  # def index
+    # matching_messages = Message.all
+
+    # @list_of_messages = matching_messages.order({ :created_at => :desc })
+
+    # render({ :template => "messages/index" })
+  # end
+
+  # def show
+    # the_id = params.fetch("path_id")
+
+    # matching_messages = Message.where({ :id => the_id })
+
+    # @the_message = matching_messages.at(0)
+
+    # render({ :template => "messages/show" })
+  # end
