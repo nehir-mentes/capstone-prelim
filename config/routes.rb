@@ -32,8 +32,9 @@ Rails.application.routes.draw do
   get("/sessions/:path_id", { :controller => "sessions", :action => "show" })
     
   # DELETE
-  get("/delete_session/:path_id", { :controller => "sessions", :action => "destroy" })
-
+  # delete("/delete_session/:path_id", { :controller => "sessions", :action => "destroy" })
+  resources :sessions
+  # old delete html:         <a href="/delete_session/<%= @the_session.id %>">
   #------------------------------
 
   # Routes for the User resource:
