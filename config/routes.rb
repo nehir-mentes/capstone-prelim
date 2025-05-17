@@ -1,5 +1,24 @@
 Rails.application.routes.draw do
 
+  # Routes for the Restaurant resource:
+
+  # CREATE
+  post("/insert_restaurant", { :controller => "restaurants", :action => "create" })
+          
+  # READ
+  get("/restaurants", { :controller => "restaurants", :action => "index" })
+  
+  get("/restaurants/:path_id", { :controller => "restaurants", :action => "show" })
+  
+  # UPDATE
+  
+  post("/modify_restaurant/:path_id", { :controller => "restaurants", :action => "update" })
+  
+  # DELETE
+  get("/delete_restaurant/:path_id", { :controller => "restaurants", :action => "destroy" })
+
+  #------------------------------
+
   # Routes for the Session resource:
 
   get("/", { :controller => "sessions", :action => "index" })

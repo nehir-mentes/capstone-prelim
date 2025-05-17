@@ -1,0 +1,102 @@
+<div>
+  <div>
+    <h1>
+      List of all restaurants
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add a new restaurant
+    </h2>
+
+    <form action="/insert_restaurant" method="post">
+      <div>
+        <label for="wine_menu_box">
+          Wine menu
+        </label>
+
+        <textarea id="wine_menu_box" name="query_wine_menu" rows="3"></textarea>
+      </div>
+
+      <div>
+        <label for="restaurant_name_box">
+          Restaurant name
+        </label>
+
+        <input type="text" id="restaurant_name_box" name="query_restaurant_name">
+      </div>
+
+      <button>
+        Create restaurant
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Wine menu
+        </th>
+
+        <th>
+          Restaurant name
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_restaurants.each do |a_restaurant| %>
+      <tr>
+        <td>
+          <%= a_restaurant.id %>
+        </td>
+
+        <td>
+          <%= a_restaurant.wine_menu %>
+        </td>
+
+        <td>
+          <%= a_restaurant.restaurant_name %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_restaurant.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_restaurant.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/restaurants/<%= a_restaurant.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>

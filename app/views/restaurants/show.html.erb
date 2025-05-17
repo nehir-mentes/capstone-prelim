@@ -1,0 +1,86 @@
+<div>
+  <div>
+    <h1>
+      Restaurant #<%= @the_restaurant.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/restaurants">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_restaurant/<%= @the_restaurant.id %>">
+          Delete restaurant
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Wine menu
+      </dt>
+      <dd>
+        <%= @the_restaurant.wine_menu %>
+      </dd>
+
+      <dt>
+        Restaurant name
+      </dt>
+      <dd>
+        <%= @the_restaurant.restaurant_name %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_restaurant.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_restaurant.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit restaurant
+    </h2>
+
+    <form action="/modify_restaurant/<%= @the_restaurant.id %>"  method="post" >
+      <div>
+        <label for="wine_menu_box">
+          Wine menu
+        </label>
+
+        <textarea id="wine_menu_box" name="query_wine_menu"><%= @the_restaurant.wine_menu %></textarea>
+      </div>
+
+      <div>
+        <label for="restaurant_name_box">
+          Restaurant name
+        </label>
+
+        <input type="text" id="restaurant_name_box" name="query_restaurant_name" value="<%= @the_restaurant.restaurant_name %>">
+      </div>
+
+      <button>
+        Update restaurant
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
