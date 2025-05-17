@@ -20,8 +20,17 @@ class SessionsController < ApplicationController
   def create
     the_session = Session.new
     the_session.title = params.fetch("query_title")
-    the_session.restaurant = params.fetch("query_restaurant")
     the_session.owner = params.fetch("query_owner")
+    
+    restaurant_name = params.fetch("query_restaurant")
+    restaurant = Restaurant.find_by(restaurant_name: restaurant_name)
+
+    if restaurant.nil?
+      flash[:alert] = "That restaurant is not in our system. Please choose an existing one."
+      redirect_to("/") and return
+    end
+
+    the_session.restaurant_id = restaurant.id
 
     if the_session.valid?
       the_session.save
